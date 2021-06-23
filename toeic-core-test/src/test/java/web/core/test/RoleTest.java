@@ -10,7 +10,6 @@ import web.core.dao.RoleDao;
 import web.core.daoimpl.RoleDaoImpl;
 import web.core.persistence.entity.RoleEntity;
 
-import javax.management.relation.Role;
 
 public class RoleTest {
 
