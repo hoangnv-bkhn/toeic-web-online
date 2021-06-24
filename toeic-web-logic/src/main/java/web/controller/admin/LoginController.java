@@ -1,5 +1,10 @@
 package web.controller.admin;
 
+import org.apache.log4j.Logger;
+import web.command.UserCommand;
+import web.core.dto.UserDTO;
+import web.core.web.utils.FormUtil;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,12 +15,18 @@ import java.io.IOException;
 
 @WebServlet("/login.html")
 public class LoginController extends HttpServlet {
+
+    private final Logger log = Logger.getLogger(this.getClass());
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/login.jsp");
         rd.forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        UserCommand command = FormUtil.populate(UserCommand.class, request);
+//        UserDTO pojo = command.getPojo();
+        RequestDispatcher rd = request.getRequestDispatcher("/views/web/login.jsp");
+        rd.forward(request, response);
     }
 }

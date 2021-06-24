@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/common/taglib.jsp" %>
+<c:url var="formUrl" value="/login.html"/>
 <html>
 <head>
     <title>Login Page</title>
@@ -15,12 +16,12 @@
 
             <div class="space-6"></div>
 
-            <form>
+            <form action="${formUrl}" method="post">
                 <fieldset>
                     <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="text" class="form-control"
-                                                                   placeholder="Username">
+                                                                   placeholder="Username" name="pojo.name">
 															<i class="ace-icon fa fa-user"></i>
 														</span>
                     </label>
@@ -28,7 +29,15 @@
                     <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="password" class="form-control"
-                                                                   placeholder="Password">
+                                                                   placeholder="Password" name="pojo.password">
+															<i class="ace-icon fa fa-lock"></i>
+														</span>
+                    </label>
+
+                    <label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="password" class="form-control"
+                                                                   placeholder="Confirm Password" name="confirmPassword">
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
                     </label>
@@ -41,7 +50,7 @@
                             <span class="lbl"> Remember Me</span>
                         </label>
 
-                        <button type="button" class="width-35 pull-right btn btn-sm btn-primary">
+                        <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
                             <i class="ace-icon fa fa-key"></i>
                             <span class="bigger-110">Login</span>
                         </button>
