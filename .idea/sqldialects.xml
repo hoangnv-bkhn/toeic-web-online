@@ -3,6 +3,7 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/ApplicationFiles/database/0_create_database.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/ApplicationFiles/database/1_create_table.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/ApplicationFiles/database/alter_table_role_user.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/ApplicationFiles/database/2_alter_table_role_user.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/ApplicationFiles/database/3_insert_database.sql" dialect="GenericSQL" />
   </component>
 </project>
