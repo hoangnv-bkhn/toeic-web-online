@@ -4,6 +4,8 @@
     <test name="FirstTest">
         <classes>
             <class name="web.core.test.RoleTest" />
+            <class name="web.core.test.LoginTest" />
+            <class name="web.core.test.ListenGuidelineTest" />
         </classes>
     </test>
 </suite>

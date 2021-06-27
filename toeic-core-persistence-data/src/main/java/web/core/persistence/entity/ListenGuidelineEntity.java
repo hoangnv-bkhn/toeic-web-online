@@ -29,7 +29,7 @@ public class ListenGuidelineEntity {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "createddate")
+    @Column(name = "createdate")
     private Timestamp createdDate;
 
     @Column(name = "modifieddate")

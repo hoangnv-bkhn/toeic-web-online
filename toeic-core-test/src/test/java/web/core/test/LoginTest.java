@@ -10,7 +10,7 @@ public class LoginTest {
 
     private final Logger log = Logger.getLogger(this.getClass());
 
-    @Test
+/*    @Test
     public void checkIsUserExists() {
         UserDao userDao = new UserDaoImpl();
         String name = "nguyenviethoang";
@@ -21,14 +21,14 @@ public class LoginTest {
         } else {
             log.error("Login Failed");
         }
-    }
+    }*/
 
-    @Test
+/*    @Test
     public void checkFindRoleByUser() {
         UserDao userDao = new UserDaoImpl();
         String name = "nguyenviethoang";
         String password = "123456";
         UserEntity entity = userDao.findRoleByUser(name, password);
         log.error(entity.getRoleEntity().getRoleId()+" - "+entity.getRoleEntity().getName());
-    }
+    }*/
 }

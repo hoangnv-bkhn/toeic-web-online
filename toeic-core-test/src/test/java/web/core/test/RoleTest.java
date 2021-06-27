@@ -43,7 +43,7 @@ public class RoleTest {
         RoleEntity entity = roleDao.findById(1);
     }
 
-    @Test
+/*    @Test
     public void checkFindByProperty(){
         RoleDao roleDao = new RoleDaoImpl();
         String property = null;
@@ -52,7 +52,7 @@ public class RoleTest {
         String sortDirection = null;
         Object[] objects = roleDao.findByProperty(property, value, sortExpression, sortDirection);
 
-    }
+    }*/
 
     @Test
     public void checkDelete() {
