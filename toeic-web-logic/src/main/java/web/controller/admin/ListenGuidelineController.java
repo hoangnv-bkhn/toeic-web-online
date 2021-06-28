@@ -2,7 +2,10 @@ package web.controller.admin;
 
 import web.command.ListenGuidelineCommand;
 import web.core.dto.ListenGuidelineDTO;
+import web.core.service.ListenGuidelineService;
+import web.core.service.impl.ListenGuidelineServiceImpl;
 import web.core.web.common.WebConstant;
+import web.core.web.utils.RequestUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,26 +19,17 @@ import java.util.List;
 
 @WebServlet("/admin-guideline-listen-list.html")
 public class ListenGuidelineController extends HttpServlet {
+    private ListenGuidelineService listenGuidelineService = new ListenGuidelineServiceImpl();
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         ListenGuidelineCommand command = new ListenGuidelineCommand();
-        List<ListenGuidelineDTO> listenGuidelineDTOs = new ArrayList<>();
 
-        ListenGuidelineDTO dto1 = new ListenGuidelineDTO();
-        dto1.setTitle("Bai huong dan nghe 1");
-        dto1.setContent("Noi dung bai huong dan nghe 1");
+        command.setMaxPageItems(2);
 
-        ListenGuidelineDTO dto2 = new ListenGuidelineDTO();
-        dto2.setTitle("Bai huong dan nghe 2");
-        dto2.setContent("Noi dung bai huong dan nghe 2");
-
-        listenGuidelineDTOs.add(dto1);
-        listenGuidelineDTOs.add(dto2);
-
-        command.setListResult(listenGuidelineDTOs);
-        command.setMaxPageItems(1);
-        command.setTotalItems(listenGuidelineDTOs.size());
-
+        RequestUtil.initSearchBeans(request, command);
+        Object[] objects = listenGuidelineService.findListenGuidelineByProperties(null, null, command.getSortExpression(), command.getSortDirection(), command.getFirstItem(), command.getMaxPageItems());
+        command.setListResult((List<ListenGuidelineDTO>) objects[1]);
+        command.setTotalItems(Integer.parseInt(objects[0].toString()));
         request.setAttribute(WebConstant.LIST_ITEMS, command);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/admin/listenguideline/list.jsp");

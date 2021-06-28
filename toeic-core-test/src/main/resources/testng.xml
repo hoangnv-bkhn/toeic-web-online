@@ -6,6 +6,7 @@
             <class name="web.core.test.RoleTest" />
             <class name="web.core.test.LoginTest" />
             <class name="web.core.test.ListenGuidelineTest" />
+            <class name="web.core.test.ReviewHashMap" />
         </classes>
     </test>
 </suite>

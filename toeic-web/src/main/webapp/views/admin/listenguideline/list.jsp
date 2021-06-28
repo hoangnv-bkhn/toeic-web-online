@@ -31,11 +31,11 @@
                     <div class="table-responsive">
                         <fmt:bundle basename="ApplicationResources">
                             <display:table id="tableList" name="items.listResult" partialList="true" size="${items.totalItems}"
-                                           pagesize="${items.maxPageItems}" sort="external"
+                                           pagesize="${items.maxPageItems}" sort="external" requestURI="${requestUrl}"
                                             class = "table table-fcv-ace table-striped table-bordered table-hover dataTable no-footer"
                                            style="margin: 3em 0 1.5em;">
-                                <display:column property="title" titleKey="label.guideline.listen.title" sortable="true"/>
-                                <display:column property="content" titleKey="label.guideline.listen.content" sortable="true"/>
+                                <display:column property="title" titleKey="label.guideline.listen.title" sortable="true" sortName="title"/>
+                                <display:column property="content" titleKey="label.guideline.listen.content" sortable="true" sortName="content"/>
 
                             </display:table>
                         </fmt:bundle>

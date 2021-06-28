@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -15,13 +16,13 @@ import web.core.common.constant.CoreConstant;
 import web.core.common.utils.HibernateUtil;
 import web.core.data.dao.GenericDao;
 
-public class AbstractDao <ID extends Serializable, T> implements GenericDao<ID, T>{
+public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T> {
 
     private Class<T> persistenceClass;
 
     @SuppressWarnings("unchecked")
     public AbstractDao() {
-        this.persistenceClass = (Class<T>) ((ParameterizedType)getClass().getGenericSuperclass()) .getActualTypeArguments()[1];
+        this.persistenceClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }
 
     public String getPersistenceClassName() {
@@ -98,7 +99,7 @@ public class AbstractDao <ID extends Serializable, T> implements GenericDao<ID, 
         try {
             result = session.get(persistenceClass, id);
             if (result == null) {
-                throw new ObjectNotFoundException("NOT FOUND "+id);
+                throw new ObjectNotFoundException("NOT FOUND " + id);
             }
             transaction.commit();
         } catch (HibernateException e) {
@@ -110,31 +111,101 @@ public class AbstractDao <ID extends Serializable, T> implements GenericDao<ID, 
         return result;
     }
 
-    @SuppressWarnings("unchecked")
+    /*
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Object[] findByProperty(String property, Object value, String sortExpression, String sortDirection, Integer offset, Integer limit) {
+            List<T> list = new ArrayList<>();
+            Session session = getSession();
+            Transaction transaction = session.beginTransaction();
+            Object totalItems = 0;
+            try {
+                StringBuilder sql = new StringBuilder("from ");
+                sql.append(getPersistenceClassName());
+                if (property != null && value != null) {
+                    sql.append(" where ").append(property).append(" = :value");
+                }
+                if (sortExpression != null && sortDirection != null) {
+                    sql.append(" order by ").append(sortExpression);
+                    sql.append(" " + (sortDirection.equals(CoreConstant.SORT_ACS) ? "asc" : "desc"));
+                }
+                Query<T> query1 = session.createQuery(sql.toString());
+                if (value != null) {
+                    query1.setParameter("value", value);
+                }
+                if (offset != null && offset >= 0){
+                    query1.setFirstResult(offset);
+                }
+                if (limit != null && limit > 0){
+                    query1.setMaxResults(limit);
+                }
+                list = query1.list();
+
+    //			totalItems = list.size();
+                StringBuilder sql2 = new StringBuilder("select count(*) from ");
+                sql2.append(getPersistenceClassName());
+                if (property !=null && value != null) {
+                    sql2.append(" where ").append(property).append("= :value");
+                }
+                Query<T> query2 = session.createQuery(sql2.toString());
+                if (value != null) {
+                    query2.setParameter("value", value);
+                }
+                totalItems = query2.list().get(0);
+                transaction.commit();
+
+            } catch (HibernateException e) {
+                transaction.rollback();
+                throw e;
+            } finally {
+                session.close();
+            }
+            return new Object[] {totalItems, list};
+        }
+    */
     @Override
-    public Object[] findByProperty(String property, Object value, String sortExpression, String sortDirection, Integer offset, Integer limit) {
+    public Object[] findByProperty(Map<String, Object> property, String sortExpression, String sortDirection, Integer offset, Integer limit) {
         List<T> list = new ArrayList<>();
         Session session = getSession();
         Transaction transaction = session.beginTransaction();
         Object totalItems = 0;
+        String[] params = new String[property.size()];
+        Object[] values = new Object[property.size()];
+        int i = 0;
+        for (Map.Entry<String, Object> item: property.entrySet()) {
+            params[i] = item.getKey();
+            values[i] = item.getValue();
+            i++;
+        }
         try {
             StringBuilder sql = new StringBuilder("from ");
             sql.append(getPersistenceClassName());
-            if (property != null && value != null) {
-                sql.append(" where ").append(property).append(" = :value");
+            if (property.size() > 0){
+                for (int i1 = 0; i1 < params.length; i1++) {
+                    if (i1 == 0){
+                        sql.append(" where ").append(params[i1]).append(" = :").append(params[i1]);
+                    }else{
+                        sql.append(" and ").append(params[i1]).append(" = :").append(params[i1]);
+                    }
+                }
+
             }
             if (sortExpression != null && sortDirection != null) {
                 sql.append(" order by ").append(sortExpression);
-                sql.append(" " + (sortDirection.equals(CoreConstant.SORT_ACS) ? "asc" : "desc"));
+                sql.append(" ").append(sortDirection.equals(CoreConstant.SORT_ACS) ? "asc" : "desc");
             }
             Query<T> query1 = session.createQuery(sql.toString());
-            if (value != null) {
-                query1.setParameter("value", value);
+
+            if (property.size() > 0) {
+                for (int i2 = 0; i2 < params.length; i2++) {
+                    query1.setParameter(params[i2], values[i2]);
+                }
             }
-            if (offset != null && offset >= 0){
+            if (offset != null && offset >= 0) {
                 query1.setFirstResult(offset);
             }
-            if (limit != null && limit > 0){
+            if (limit != null && limit > 0) {
                 query1.setMaxResults(limit);
             }
             list = query1.list();
@@ -142,12 +213,21 @@ public class AbstractDao <ID extends Serializable, T> implements GenericDao<ID, 
 //			totalItems = list.size();
             StringBuilder sql2 = new StringBuilder("select count(*) from ");
             sql2.append(getPersistenceClassName());
-            if (property !=null && value != null) {
-                sql2.append(" where ").append(property).append("= :value");
+            if (property.size() > 0){
+                for (int i1 = 0; i1 < params.length; i1++) {
+                    if (i1 == 0){
+                        sql2.append(" where ").append(params[i1]).append(" = :").append(params[i1]);
+                    }else{
+                        sql2.append(" and ").append(params[i1]).append(" = :").append(params[i1]);
+                    }
+                }
+
             }
             Query<T> query2 = session.createQuery(sql2.toString());
-            if (value != null) {
-                query2.setParameter("value", value);
+            if (property.size() > 0) {
+                for (int i2 = 0; i2 < params.length; i2++) {
+                    query2.setParameter(params[i2], values[i2]);
+                }
             }
             totalItems = query2.list().get(0);
             transaction.commit();
@@ -158,8 +238,9 @@ public class AbstractDao <ID extends Serializable, T> implements GenericDao<ID, 
         } finally {
             session.close();
         }
-        return new Object[] {totalItems, list};
+        return new Object[]{totalItems, list};
     }
+
 
     @Override
     public Integer delete(List<ID> ids) {
