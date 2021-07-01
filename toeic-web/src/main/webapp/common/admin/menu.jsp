@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp"%>
-<%--<c:url value="/admin-guideline-listen-list.html" var="listenGuidelineListUrl">
+<c:url value="/admin-guideline-listen-list.html" var="listenGuidelineListUrl">
     <c:param name="urlType" value="url_list"/>
 </c:url>
-<c:url value="/admin-user-list.html" var="userListUrl">
+<%--<c:url value="/admin-user-list.html" var="userListUrl">
     <c:param name="urlType" value="url_list"/>
 </c:url>--%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -51,7 +51,7 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href="<c:url value="/admin-guideline-listen-list.html"/>">
+                    <a href="${listenGuidelineListUrl}">
                         <i class="menu-icon fa fa-caret-right"></i>
                         <fmt:message key="label.guideline.listen.list" bundle="${lang}"/>
                     </a>
