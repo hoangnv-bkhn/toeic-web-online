@@ -12,4 +12,6 @@ public class WebConstant {
     public static final String URL_LIST = "url_list";
     public static final String URL_EDIT = "url_edit";
     public static final String LISTEN_GUIDE_LINE = "listenguideline";
+    public static final String URL_CLOSEST_METHOD = "url_closest_method";
+    public static final String URL_FIND_METHOD = "url_find_method";
 }

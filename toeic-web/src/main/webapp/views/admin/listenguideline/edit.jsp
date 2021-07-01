@@ -37,109 +37,148 @@
                                 ${messageResponse}
                         </div>
                     </c:if>
-                    <form action="${formUrl}" method="post" enctype="multipart/form-data" id="formEdit">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.guideline.title" bundle="${lang}"/></label>
-                            <div class="col-sm-9">
-                                <input type="text" name="pojo.title" id="title" value="${item.pojo.title}"/>
-                            </div>
+
+<%--                    TEST ACTION HIDE WHEN CLICK--%>
+
+<%--                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"></label>
+                        <div class="col-sm-9">
+                            <h2>This is a heading</h2>
+                            <p>This is a paragraph.</p>
+                            <p class ="textHide">This is another paragraph.</p>
                         </div>
-                        <br/>
-                        <br/>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.grammarguideline.upload.image" bundle="${lang}"/></label>
-                            <div class="col-sm-9">
-                                <input type="file" name="file" id="uploadImage"/>
-                            </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"></label>
+                        <div class="col-sm-9">
+                            <button id="btnHide">Click me to hide paragraphs</button>
                         </div>
-                        <br/>
-                        <%--<div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.grammarguideline.upload.image.view" bundle="${lang}"/></label>
-                            <div class="col-sm-9">
-                                <c:if test="${not empty item.pojo.image}">
-                                    <c:set var="image" value="/repository/${item.pojo.image}"/>
-                                </c:if>
-                                <img src="${image}" id="viewImage" width="150px" height="150ox">
-                            </div>
-                        </div>--%>
-                        <br/>
-                        <br/>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.guideline.content" bundle="${lang}"/></label>
+                    </div>--%>
+
+<%--                    TEST GET VALUE FROM HTML ELEMENT AND SET TO ANOTHER--%>
+
+                   <%-- <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"></label>
+                        <div class="col-sm-9">
+                            <input type="text" value="JSP-SERVLET" id="value"/>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <c:if test="${not empty item.pojo.content}">
-                                    <c:set var="content" value="${item.pojo.content}"/>
-                                </c:if>
-                                <textarea name="pojo.content" cols="80" rows="10" id="ListenGuidelineContent">${content}</textarea>
-                            </div>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"></label>
+                        <div class="col-sm-9">
+                            <p id="showValue">Nothing</p>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <input type="submit" class="btn btn-white btn-warning btn-bold" value="<fmt:message key="label.done" bundle="${lang}"/>"/>
-                            </div>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"></label>
+                        <div class="col-sm-9">
+                            <button onclick="usingValAction()">Show info</button>
                         </div>
-                        <c:if test="${not empty item.pojo.listenGuidelineId}">
-                            <input type="hidden" name="pojo.listenGuidelineId" value="${item.pojo.listenGuidelineId}"/>
-                        </c:if>
-                    </form>
+                    </div>--%>
+
+<%--                    attr() AND prop() METHOD--%>
+
+<%--                    <br/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"></label>
+                        <div class="col-sm-9">
+                            <input type="checkbox" id="testCheckbox" />
+                        </div>
+                    </div>--%>
+
+<%--                    JQUERY css() METHOD--%>
+
+                    <%--<div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"></label>
+                        <div class="col-sm-9">
+                            <p style="color: red" id="demoCssMethod1">This is a paragraph</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"></label>
+                        <div class="col-sm-9">
+                            <button id="demoCssMethod" onclick="demoCSSMethod()">Change color of text</button>
+                        </div>
+                    </div>--%>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    var listenGuidelineId = '';
-    <c:if test="${not empty item.pojo.listenGuidelineId}">
-    listenGuidelineId = ${item.pojo.listenGuidelineId};
-    </c:if>
+
     $(document).ready(function () {
-        var editor = CKEDITOR.replace( 'ListenGuidelineContent' );
-        CKFinder.setupCKEditor( editor, '/ckfinder/' );
-        validateData();
-        $('#uploadImage').change(function () {
-            readURL(this, "viewImage");
-        });
+        hideAllWhenClickButton();
     });
-    function validateData() {
-        $('#formEdit').validate({
-            ignore: [],
-            rules: [],
-            messages: []
-        });
-        $("#title").rules( "add", {
-            required: true,
-            messages: {
-                required: '<fmt:message key="label.empty" bundle="${lang}"/>'
-            }
-        });
-        if (listenGuidelineId == '') {
-            $("#uploadImage").rules( "add", {
-                required: true,
-                messages: {
-                    required: '<fmt:message key="label.empty" bundle="${lang}"/>'
-                }
-            });
-        }
-        $("#ListenGuidelineContent").rules( "add", {
-            required: function () {
-                CKEDITOR.instances.ListenGuidelineContent.updateElement();
-            },
-            messages: {
-                required: '<fmt:message key="label.empty" bundle="${lang}"/>'
-            }
-        });
+    function hideAllWhenClickButton(){
+        $("#btnHide").click(function () {
+            $(".textHide").hide();
+        })
     }
-    function readURL(input, imageId) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#' +imageId).attr('src', reader.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
+
+    function usingValAction() {
+        var value = $("#value").val();
+        $("#showValue").html(value);
     }
+
+    function demoCSSMethod() {
+        $("#demoCssMethod1").css("color", "blue");
+    }
+
+    <%--var listenGuidelineId = '';--%>
+    <%--<c:if test="${not empty item.pojo.listenGuidelineId}">--%>
+    <%--listenGuidelineId = ${item.pojo.listenGuidelineId};--%>
+    <%--</c:if>--%>
+    <%--$(document).ready(function () {--%>
+    <%--    var editor = CKEDITOR.replace( 'ListenGuidelineContent' );--%>
+    <%--    CKFinder.setupCKEditor( editor, '/ckfinder/' );--%>
+    <%--    validateData();--%>
+    <%--    $('#uploadImage').change(function () {--%>
+    <%--        readURL(this, "viewImage");--%>
+    <%--    });--%>
+    <%--});--%>
+    <%--function validateData() {--%>
+    <%--    $('#formEdit').validate({--%>
+    <%--        ignore: [],--%>
+    <%--        rules: [],--%>
+    <%--        messages: []--%>
+    <%--    });--%>
+    <%--    $("#title").rules( "add", {--%>
+    <%--        required: true,--%>
+    <%--        messages: {--%>
+    <%--            required: '<fmt:message key="label.empty" bundle="${lang}"/>'--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--    if (listenGuidelineId == '') {--%>
+    <%--        $("#uploadImage").rules( "add", {--%>
+    <%--            required: true,--%>
+    <%--            messages: {--%>
+    <%--                required: '<fmt:message key="label.empty" bundle="${lang}"/>'--%>
+    <%--            }--%>
+    <%--        });--%>
+    <%--    }--%>
+    <%--    $("#ListenGuidelineContent").rules( "add", {--%>
+    <%--        required: function () {--%>
+    <%--            CKEDITOR.instances.ListenGuidelineContent.updateElement();--%>
+    <%--        },--%>
+    <%--        messages: {--%>
+    <%--            required: '<fmt:message key="label.empty" bundle="${lang}"/>'--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--}--%>
+    <%--function readURL(input, imageId) {--%>
+    <%--    if (input.files && input.files[0]) {--%>
+    <%--        var reader = new FileReader();--%>
+    <%--        reader.onload = function (e) {--%>
+    <%--            $('#' +imageId).attr('src', reader.result);--%>
+    <%--        }--%>
+    <%--        reader.readAsDataURL(input.files[0]);--%>
+    <%--    }--%>
+    <%--}--%>
 </script>
 </body>
 </html>
