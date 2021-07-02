@@ -140,6 +140,57 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    <%--var listenGuidelineId = '';--%>
+    <%--<c:if test="${not empty item.pojo.listenGuidelineId}">--%>
+    <%--listenGuidelineId = ${item.pojo.listenGuidelineId};--%>
+    <%--</c:if>--%>
+    <%--$(document).ready(function () {--%>
+    <%--    var editor = CKEDITOR.replace( 'ListenGuidelineContent' );--%>
+    <%--    CKFinder.setupCKEditor( editor, '/ckfinder/' );--%>
+    <%--    validateData();--%>
+    <%--    $('#uploadImage').change(function () {--%>
+    <%--        readURL(this, "viewImage");--%>
+    <%--    });--%>
+    <%--});--%>
+    <%--function validateData() {--%>
+    <%--    $('#formEdit').validate({--%>
+    <%--        ignore: [],--%>
+    <%--        rules: [],--%>
+    <%--        messages: []--%>
+    <%--    });--%>
+    <%--    $("#title").rules( "add", {--%>
+    <%--        required: true,--%>
+    <%--        messages: {--%>
+    <%--            required: '<fmt:message key="label.empty" bundle="${lang}"/>'--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--    if (listenGuidelineId == '') {--%>
+    <%--        $("#uploadImage").rules( "add", {--%>
+    <%--            required: true,--%>
+    <%--            messages: {--%>
+    <%--                required: '<fmt:message key="label.empty" bundle="${lang}"/>'--%>
+    <%--            }--%>
+    <%--        });--%>
+    <%--    }--%>
+    <%--    $("#ListenGuidelineContent").rules( "add", {--%>
+    <%--        required: function () {--%>
+    <%--            CKEDITOR.instances.ListenGuidelineContent.updateElement();--%>
+    <%--        },--%>
+    <%--        messages: {--%>
+    <%--            required: '<fmt:message key="label.empty" bundle="${lang}"/>'--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--}--%>
+    <%--function readURL(input, imageId) {--%>
+    <%--    if (input.files && input.files[0]) {--%>
+    <%--        var reader = new FileReader();--%>
+    <%--        reader.onload = function (e) {--%>
+    <%--            $('#' +imageId).attr('src', reader.result);--%>
+    <%--        }--%>
+    <%--        reader.readAsDataURL(input.files[0]);--%>
+    <%--    }--%>
+    <%--}--%>
 </script>
 </body>
 </html>

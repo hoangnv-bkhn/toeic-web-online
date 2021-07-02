@@ -20,9 +20,9 @@
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
      <script type='text/javascript' src='<c:url value="/templates/admin/js/jquery-2.2.3.min.js" />'></script>
      <script src="<c:url value='/templates/admin/assets/js/jquery.2.1.1.min.js' />"></script>
-     <link rel="stylesheet" href="<c:url value="/templates/admin/css/global_admin_style.css"/>">
-<%--     <script type="text/javascript" src="<c:url value="/templates/admin/js/global_admin_script.js"/>"></script>--%>
      <script src="<c:url value='/templates/admin/assets/js/jquery.validate.min.js' />"></script>
+     <link rel="stylesheet" href="<c:url value="/templates/admin/css/global_admin_style.css"/>">
+     <script type="text/javascript" src="<c:url value="/templates/admin/js/global_admin_script.js"/>"></script>
 
     <%--ckeditor plugin--%>
     <%--    <script type="text/javascript" src="<c:url value="/ckeditor/ckeditor.js"/>"></script>--%>
