@@ -1,5 +1,6 @@
 package web.core.service.impl;
 
+import javassist.tools.rmi.ObjectNotFoundException;
 import web.core.dao.UserDao;
 import web.core.daoimpl.UserDaoImpl;
 import web.core.dto.UserDTO;
@@ -37,5 +38,12 @@ public class UserServiceImpl implements UserService {
         objects[1] = userDTOS;
         return objects;
 
+    }
+
+    @Override
+    public UserDTO findById(Integer userId) throws ObjectNotFoundException {
+        UserEntity entity = userDao.findById(userId);
+        UserDTO dto = UserBeanUtil.entity2Dto(entity);
+        return dto;
     }
 }

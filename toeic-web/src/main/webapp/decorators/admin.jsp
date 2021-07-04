@@ -90,6 +90,19 @@
 <script src="<c:url value='/templates/admin/assets/js/jquery-ui.min.js'/>"></script>
 
 <script type="text/javascript">
+   /* $(document).ready(function () {
+        bindEventCheckAllCheckbox("checkAll");
+    });
+
+    function bindEventCheckAllCheckbox(id) {
+        $("#" + id).on('change', function () {
+            if ($(this).checked) {
+                $(this).closest("table").find("input[type=checkbox]").prop("checked", true);
+            } else {
+                $(this).closest("table").find("input[type=checkbox]").prop("checked", false);
+            }
+        });
+    }*/
     function showAlertBeforeDelete(callback) {
         swal({
             title: "Xác nhận xóa",
