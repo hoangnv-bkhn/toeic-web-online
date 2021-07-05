@@ -1,6 +1,7 @@
 package web.core.service.impl;
 
 import javassist.tools.rmi.ObjectNotFoundException;
+import web.core.dto.CheckLoginDTO;
 import web.core.dto.UserDTO;
 import web.core.persistence.entity.UserEntity;
 import web.core.service.UserService;
@@ -13,18 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public class UserServiceImpl implements UserService {
-
-    @Override
-    public UserDTO isUserExist(UserDTO dto) {
-        UserEntity entity = SingletonDaoUtil.getUserDaoInstance().findUserByUsernameAndPassword(dto.getName(), dto.getPassword());
-        return UserBeanUtil.entity2Dto(entity);
-    }
-
-    @Override
-    public UserDTO findRoleByUser(UserDTO dto) {
-        UserEntity entity = SingletonDaoUtil.getUserDaoInstance().findUserByUsernameAndPassword(dto.getName(), dto.getPassword());
-        return UserBeanUtil.entity2Dto(entity);
-    }
 
     @Override
     public Object[] findByProperty(Map<String, Object> property, String sortExpression, String sortDirection, Integer offset, Integer limit) {
@@ -60,5 +49,18 @@ public class UserServiceImpl implements UserService {
         entity = SingletonDaoUtil.getUserDaoInstance().update(entity);
         userDTO = UserBeanUtil.entity2Dto(entity);
         return  userDTO;
+    }
+
+    @Override
+    public CheckLoginDTO checkLogin(String name, String password) {
+        CheckLoginDTO checkLoginDTO = new CheckLoginDTO();
+        if (name != null && password != null) {
+            Object[] objects = SingletonDaoUtil.getUserDaoInstance().checkLogin(name, password);
+            checkLoginDTO.setUserExist((boolean) objects[0]);
+            if (checkLoginDTO.isUserExist()) {
+                checkLoginDTO.setRoleName(objects[1].toString());
+            }
+        }
+        return checkLoginDTO;
     }
 }

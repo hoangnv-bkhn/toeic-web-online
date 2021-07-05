@@ -1,5 +1,6 @@
 package web.core.daoimpl;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -10,25 +11,28 @@ import web.core.persistence.entity.UserEntity;
 public class UserDaoImpl extends AbstractDao<Integer, UserEntity> implements UserDao {
 
     @Override
-    public UserEntity findUserByUsernameAndPassword(String name, String password) {
+    public Object[] checkLogin(String name, String password) {
         Session session = getSession();
         Transaction transaction = session.beginTransaction();
 
-        UserEntity entity = new UserEntity();
+        boolean isUserExist = false;
+        String roleName = null;
         try {
-            StringBuilder sql = new StringBuilder("FROM UserEntity WHERE name = :name AND password = :password ");
-            Query<UserEntity> query = session.createQuery(sql.toString());
+            StringBuilder sql = new StringBuilder("from UserEntity ue where ue.name = :name and ue.password = :password");
+            Query query = session.createQuery(sql.toString());
             query.setParameter("name", name);
             query.setParameter("password", password);
-            entity = query.uniqueResult();
-            transaction.commit();
-        } catch (Exception e) {
+            if (query.list().size() > 0) {
+                isUserExist = true;
+                UserEntity userEntity = (UserEntity) query.uniqueResult();
+                roleName = userEntity.getRoleEntity().getName();
+            }
+        } catch (HibernateException e) {
             transaction.rollback();
             throw e;
         } finally {
             session.close();
         }
-
-        return entity;
+            return new Object[]{isUserExist, roleName};
     }
 }
