@@ -22,11 +22,21 @@ public class UserCommand extends AbstractCommand<UserDTO> {
 
     private List<RoleDTO> roles;
 
+    private Integer roleId;
+
     public List<RoleDTO> getRoles() {
         return roles;
     }
 
     public void setRoles(List<RoleDTO> roles) {
         this.roles = roles;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 }
