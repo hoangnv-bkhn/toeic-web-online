@@ -1,6 +1,5 @@
 package web.core.dto;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -11,6 +10,16 @@ public class UserDTO implements Serializable {
     private String fullname;
     private Timestamp createdDate;
     private RoleDTO roleDTO;
+
+    private UserImportDTO userImportDTO;
+
+    public UserImportDTO getUserImportDTO() {
+        return userImportDTO;
+    }
+
+    public void setUserImportDTO(UserImportDTO userImportDTO) {
+        this.userImportDTO = userImportDTO;
+    }
 
     public Integer getUserId() {
         return userId;

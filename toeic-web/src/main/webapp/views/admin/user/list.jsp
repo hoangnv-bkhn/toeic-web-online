@@ -13,6 +13,9 @@
 <c:url var="listUserUrl" value="/admin-user-list.html">
     <c:param name="urlType" value="url_edit"/>
 </c:url>
+<c:url var="importUrl" value="/admin-user-import.html">
+    <c:param name="urlType" value="show_import_user"/>
+</c:url>
 <html>
 <head>
     <title><fmt:message key="label.user.management" bundle="${lang}"/></title>

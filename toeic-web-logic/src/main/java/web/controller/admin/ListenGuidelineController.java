@@ -1,15 +1,12 @@
 package web.controller.admin;
 
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.log4j.Logger;
 import web.command.ListenGuidelineCommand;
 import web.core.common.utils.UploadUtil;
-import web.core.dto.ListenGuidelineDTO;
 import web.core.service.ListenGuidelineService;
 import web.core.service.impl.ListenGuidelineServiceImpl;
 import web.core.web.common.WebConstant;
 import web.core.web.utils.FormUtil;
-import web.core.web.utils.RequestUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,7 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 //@WebServlet("/admin-guideline-listen-list.html")
 @WebServlet(urlPatterns = {"/admin-guideline-listen-list.html", "/admin-guideline-listen-edit.html"})
@@ -73,7 +73,7 @@ public class ListenGuidelineController extends HttpServlet {
 
         Set<String> valueTitle = buildSetValueListenGuideline();
 
-        try {
+       /* try {
             Object[] objects = uploadUtil.writeOrUpdateFile(request, valueTitle, WebConstant.LISTEN_GUIDE_LINE);
             Map<String, String> mapValue = (Map<String, String>) objects[3];
             command = returnValueListenGuileelineCommand(command, valueTitle, mapValue);
@@ -90,7 +90,7 @@ public class ListenGuidelineController extends HttpServlet {
             session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_ERROR);
             session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.error"));
             e.printStackTrace();
-        }
+        }*/
         response.sendRedirect("/admin-guideline-listen-list.html?urlType=url_list");
     }
 
