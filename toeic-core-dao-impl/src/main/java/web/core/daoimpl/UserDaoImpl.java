@@ -8,6 +8,9 @@ import web.core.dao.UserDao;
 import web.core.data.daoimpl.AbstractDao;
 import web.core.persistence.entity.UserEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDaoImpl extends AbstractDao<Integer, UserEntity> implements UserDao {
 
     @Override
@@ -34,5 +37,25 @@ public class UserDaoImpl extends AbstractDao<Integer, UserEntity> implements Use
             session.close();
         }
             return new Object[]{isUserExist, roleName};
+    }
+
+    @Override
+    public List<UserEntity> findByUsers(List<String> names) {
+        Session session = getSession();
+        Transaction transaction = session.beginTransaction();
+        List<UserEntity> entities = new ArrayList<>();
+        try {
+            String sql = "from UserEntity ue where ue.name in (:names)";
+            Query query = session.createQuery(sql);
+            query.setParameterList("names", names);
+            entities = query.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+        return entities;
     }
 }

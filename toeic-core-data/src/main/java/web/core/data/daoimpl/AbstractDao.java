@@ -1,20 +1,19 @@
 package web.core.data.daoimpl;
 
+import org.hibernate.HibernateException;
+import org.hibernate.ObjectNotFoundException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import web.core.common.constant.CoreConstant;
+import web.core.common.utils.HibernateUtil;
+import web.core.data.dao.GenericDao;
+
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-
-import javassist.tools.rmi.ObjectNotFoundException;
-import web.core.common.constant.CoreConstant;
-import web.core.common.utils.HibernateUtil;
-import web.core.data.dao.GenericDao;
 
 public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T> {
 
@@ -99,7 +98,7 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
         try {
             result = session.get(persistenceClass, id);
             if (result == null) {
-                throw new ObjectNotFoundException("NOT FOUND " + id);
+                throw new ObjectNotFoundException(null,"NOT FOUND " + id);
             }
             transaction.commit();
         } catch (HibernateException e) {
@@ -261,6 +260,26 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
             session.close();
         }
         return count;
+    }
+
+    @Override
+    public T findEqualUnique(String property, Object value) {
+        Session session = getSession();
+        Transaction transaction = session.beginTransaction();
+        T result = null;
+        try {
+            String sql = "from " + getPersistenceClassName() + " model where model." + property + "= :value";
+            Query query = session.createQuery(sql);
+            query.setParameter("value", value);
+            result = (T) query.uniqueResult();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+        return result;
     }
 
 }

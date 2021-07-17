@@ -1,6 +1,7 @@
 package web.controller.admin;
 
 import javassist.tools.rmi.ObjectNotFoundException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -32,15 +33,17 @@ public class UserController extends HttpServlet {
 
     private final Logger log = Logger.getLogger(this.getClass());
 
+    ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
+
     private final String SHOW_IMPORT_USER = "show_import_user";
     private final String READ_EXCEL = "read_excel";
     private final String VALIDATE_IMPORT = "validate_import";
     private final String LIST_USER_IMPORT = "list_user_import";
+    private final String IMPORT_DATA = "import_data";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserCommand command = FormUtil.populate(UserCommand.class, request);
         UserDTO pojo = command.getPojo();
-        ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
         if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_LIST)) {
             Map<String, Object> mapProperties = new HashMap<String, Object>();
             Object[] objects = SingletonServiceUtil.getUserServiceImplInstance().findByProperty(mapProperties, command.getSortExpression(), command.getSortDirection(), command.getFirstItem(), command.getMaxPageItems());
@@ -130,11 +133,19 @@ public class UserController extends HttpServlet {
                     String fileName = objects[2].toString();
 
                     List<UserImportDTO> excelValues = returnValueFromExcelFile(fileName, fileLocation);
+                    validateData(excelValues);
 
                     SessionUtil.getInstance().putValue(request, LIST_USER_IMPORT, excelValues);
 
                     response.sendRedirect("/admin-user-import-validate.html?urlType=validate_import");
                 }
+            }
+
+            if (command.getUrlType() != null && command.getUrlType().equals(IMPORT_DATA)) {
+                List<UserImportDTO> userImportDTOS = (List<UserImportDTO>) SessionUtil.getInstance().getValue(request, LIST_USER_IMPORT);
+                SingletonServiceUtil.getUserServiceImplInstance().saveUserImport(userImportDTOS);
+                SessionUtil.getInstance().remove(request, LIST_USER_IMPORT);
+                response.sendRedirect("/admin-user-list.html?urlType=url_list");
             }
 
         } catch (Exception e) {
@@ -143,6 +154,56 @@ public class UserController extends HttpServlet {
         }
 
     }
+
+    private void validateData(List<UserImportDTO> excelValues) {
+        Set<String> stringSet = new HashSet<String>();
+        for (UserImportDTO item : excelValues) {
+            checkRequiredField(item);
+            validateDuplicateField(item, stringSet);
+        }
+        SingletonServiceUtil.getUserServiceImplInstance().validateImportUser(excelValues);
+
+    }
+
+    private void validateDuplicateField(UserImportDTO item, Set<String> stringSet) {
+        String message = item.getError();
+        if (!stringSet.contains(item.getUserName())) {
+            stringSet.add(item.getUserName());
+        } else {
+            if (item.isValid()) {
+                message += "<br/>";
+                message += bundle.getString("label.username.duplicate");
+            }
+        }
+        if (StringUtils.isNotBlank(message)) {
+            item.setValid(false);
+            item.setError(message);
+        }
+
+    }
+
+    private void checkRequiredField(UserImportDTO item) {
+        String message = "";
+
+        if (StringUtils.isBlank(item.getUserName())) {
+            message += "<br/>";
+            message += bundle.getString("label.username.notempty");
+        }
+        if (StringUtils.isBlank(item.getPassword())) {
+            message += "<br/>";
+            message += bundle.getString("label.password.notempty");
+        }
+        if (StringUtils.isBlank(item.getRoleName())) {
+            message += "<br/>";
+            message += bundle.getString("label.rolename.notempty");
+        }
+
+        if (StringUtils.isNotBlank(message)) {
+            item.setValid(false);
+        }
+        item.setError(message);
+    }
+
 
     private List<UserImportDTO> returnValueFromExcelFile(String fileName, String fileLocation) throws IOException {
         Workbook workbook = ExcelPoiUtil.getWorkBook(fileName, fileLocation);
