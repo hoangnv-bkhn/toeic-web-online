@@ -25,7 +25,8 @@
      <script type="text/javascript" src="<c:url value="/templates/admin/js/global_admin_script.js"/>"></script>
 
     <%--ckeditor plugin--%>
-    <%--    <script type="text/javascript" src="<c:url value="/ckeditor/ckeditor.js"/>"></script>--%>
+<%--    <script type="text/javascript" src="<c:url value="/ckeditor/ckeditor.js"/>"></script>--%>
+    <script src="//cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 
     <%--sweetalert--%>
     <%--<script type='text/javascript' src='<c:url value="/templates/admin/sweetalert/sweetalert2.min.js"/>'></script>

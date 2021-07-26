@@ -37,6 +37,7 @@
                                 ${messageResponse}
                         </div>
                     </c:if>
+
                     <form action="${formUrl}" method="post" enctype="multipart/form-data" id="formEdit">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.guideline.title" bundle="${lang}"/></label>
@@ -53,15 +54,16 @@
                             </div>
                         </div>
                         <br/>
-                        <%--<div class="form-group">
+                        <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.grammarguideline.upload.image.view" bundle="${lang}"/></label>
                             <div class="col-sm-9">
                                 <c:if test="${not empty item.pojo.image}">
-                                    <c:set var="image" value="/repository/${item.pojo.image}"/>
+<%--                                    <c:set var="image" value="/repository/${item.pojo.image}"/>--%>
+                                    <c:set var="image" value="/fileupload/listenguideline/${item.pojo.image}"/>
                                 </c:if>
                                 <img src="${image}" id="viewImage" width="150px" height="150ox">
                             </div>
-                        </div>--%>
+                        </div>
                         <br/>
                         <br/>
                         <div class="form-group">
@@ -72,7 +74,7 @@
                                 <c:if test="${not empty item.pojo.content}">
                                     <c:set var="content" value="${item.pojo.content}"/>
                                 </c:if>
-                                <textarea name="pojo.content" cols="80" rows="10" id="ListenGuidelineContent">${content}</textarea>
+                                <textarea name="pojo.content" cols="80" rows="10" id="listenGuidelineContent">${content}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -89,14 +91,15 @@
         </div>
     </div>
 </div>
+<%--<script type="text/javascript" src="<c:url value="/ckeditor/ckeditor.js"/>"></script>--%>
 <script>
     var listenGuidelineId = '';
     <c:if test="${not empty item.pojo.listenGuidelineId}">
     listenGuidelineId = ${item.pojo.listenGuidelineId};
     </c:if>
     $(document).ready(function () {
-        var editor = CKEDITOR.replace( 'ListenGuidelineContent' );
-        CKFinder.setupCKEditor( editor, '/ckfinder/' );
+        let editor = CKEDITOR.replace( 'listenGuidelineContent' );
+        // CKFinder.setupCKEditor( editor, '/ckfinder/' );
         validateData();
         $('#uploadImage').change(function () {
             readURL(this, "viewImage");
@@ -122,9 +125,9 @@
                 }
             });
         }
-        $("#ListenGuidelineContent").rules( "add", {
+        $("#listenGuidelineContent").rules( "add", {
             required: function () {
-                CKEDITOR.instances.ListenGuidelineContent.updateElement();
+                CKEDITOR.instances.listenGuidelineContent.updateElement();
             },
             messages: {
                 required: '<fmt:message key="label.empty" bundle="${lang}"/>'

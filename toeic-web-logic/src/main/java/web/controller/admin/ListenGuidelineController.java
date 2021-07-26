@@ -49,6 +49,10 @@ public class ListenGuidelineController extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/views/admin/listenguideline/list.jsp");
             rd.forward(request, response);
         } else if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_EDIT)) {
+            if (command.getPojo() != null && command.getPojo().getListenGuidelineId() != null) {
+                command.setPojo(SingletonServiceUtil.getListenGuidelineServiceImplInstance().findListenGuidelineById("listenGuidelineId", command.getPojo().getListenGuidelineId()));
+            }
+            request.setAttribute(WebConstant.FORM_ITEM, command);
             RequestDispatcher rd = request.getRequestDispatcher("/views/admin/listenguideline/edit.jsp");
             rd.forward(request, response);
         }
