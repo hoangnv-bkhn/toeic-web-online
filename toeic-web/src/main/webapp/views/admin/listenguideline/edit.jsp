@@ -95,7 +95,7 @@
 <script>
     var listenGuidelineId = '';
     <c:if test="${not empty item.pojo.listenGuidelineId}">
-    listenGuidelineId = ${item.pojo.listenGuidelineId};
+        listenGuidelineId = ${item.pojo.listenGuidelineId};
     </c:if>
     $(document).ready(function () {
         let editor = CKEDITOR.replace( 'listenGuidelineContent' );

@@ -29,8 +29,8 @@
     <script src="//cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 
     <%--sweetalert--%>
-    <%--<script type='text/javascript' src='<c:url value="/templates/admin/sweetalert/sweetalert2.min.js"/>'></script>
-    <link rel="stylesheet" href="<c:url value="/templates/admin/sweetalert/sweetalert2.min.css"/>">--%>
+    <script type='text/javascript' src='<c:url value="/templates/admin/sweetalert/sweetalert2.min.js"/>'></script>
+    <link rel="stylesheet" href="<c:url value="/templates/admin/sweetalert/sweetalert2.min.css"/>">
 
     <%--datatable--%>
     <%--<link href="<c:url value="/template/data-table/media/css/dataTables.bootstrap4_v4.6.1.min.css"/>" rel="stylesheet">
