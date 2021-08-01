@@ -26,7 +26,7 @@
 
                     </div>
 
-                    <div class="span6"> <img src="img/slide/slide1.jpg"></div>
+<%--                    <div class="span6"> <img src="img/slide/slide1.jpg"></div>--%>
 
                 </div>
             </div>

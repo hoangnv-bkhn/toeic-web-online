@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <!--LOGO-->
-            <div class="span3"><a class="brand" href="#"><img src="img/logo.png"/></a></div>
+<%--            <div class="span3"><a class="brand" href="#"><img src="img/logo.png"/></a></div>--%>
             <!-- /LOGO -->
 
             <!-- MAIN NAVIGATION -->
@@ -26,7 +26,7 @@
                                 </li>
                                 <li><a href="service.html">Services</a></li>
                                 <c:if test="${not empty login_name}">
-                                    <li>Xin chao: ${login_name}</li>
+                                    <li>Xin chào: ${login_name}</li>
                                     <c:url var="logoutUrl" value="/logout.html">
                                         <c:param name="action" value="logout"/>
                                     </c:url>

@@ -6,7 +6,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.HashMap;
@@ -22,8 +21,10 @@ public class UploadUtil {
     private final int maxRequestSize = 1024 * 1024 * 50;    // 50MB
 
     public Object[] writeOrUpdateFile(HttpServletRequest request, Set<String> titleValue, String path) {
-        ServletContext context = request.getServletContext();
-        String address = context.getRealPath("fileupload");
+        String address = "D:/Code/WebDev/ToeicOnline/toeic-web/src/main/webapp/fileupload";
+//        String address = "/fileupload";
+
+        checkAndCreateFolder(address, path);
 
         boolean check = true;
         String fileLocation = null;
@@ -74,7 +75,7 @@ public class UploadUtil {
                 } else {
                     if (titleValue != null) {
                         String nameField = item.getFieldName();
-                        String valueField = item.getString();
+                        String valueField = item.getString("UTF-8");
                         if (titleValue.contains(nameField)) {
                             mapReturnValue.put(nameField, valueField);
                         }
@@ -86,5 +87,16 @@ public class UploadUtil {
             log.error(e.getMessage(), e);
         }
         return new Object[]{check, fileLocation, name, mapReturnValue};
+    }
+
+    private void checkAndCreateFolder(String address, String path) {
+        File folderRoot = new File(address);
+        if (!folderRoot.exists()) {
+            folderRoot.mkdirs();
+        }
+        File folderChild = new File(address + File.separator + path);
+        if (!folderChild.exists()) {
+            folderChild.mkdirs();
+        }
     }
 }
