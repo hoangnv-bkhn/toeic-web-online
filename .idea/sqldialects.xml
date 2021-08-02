@@ -9,5 +9,7 @@
     <file url="file://$PROJECT_DIR$/ApplicationFiles/database/5_alter_table_user_column_not_null.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/ApplicationFiles/database/6_alter_table_user_column_unique.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/ApplicationFiles/database/7_alter_table_listenguideline.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/ApplicationFiles/database/8_create_table.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/ApplicationFiles/database/9_insert_data_1.sql" dialect="GenericSQL" />
   </component>
 </project>
