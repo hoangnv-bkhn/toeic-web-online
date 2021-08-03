@@ -35,7 +35,7 @@
                 <c:forEach var="item" items="${items.listResult}">
                     <div class="image group">
                         <div class="grid images_3_of_1">
-                            <img src="<c:url value="/repository/${item.image}"/>" alt="" />
+                            <img src="<c:url value="/fileupload/listenguideline/${item.image}"/>" alt="" />
                         </div>
                         <div class="grid news_desc">
                             <h3>${item.title}</h3>
@@ -53,10 +53,7 @@
     <input type="hidden" id="page" name="page"/>
 </form>
 <script type="text/javascript">
-
-
-
-    /*var totalPages = ${items.totalPages};
+    var totalPages = ${items.totalPages};
     var startPage = ${items.page};
     var visiblePages = ${items.maxPageItems};
     $(document).ready(function () {
@@ -73,7 +70,8 @@
                 }
             }
         });
-    });*/
+    });
+
 </script>
 </body>
 </html>

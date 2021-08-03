@@ -14,5 +14,10 @@
         <mapping class="web.core.persistence.entity.UserEntity" />
         <mapping class="web.core.persistence.entity.CommentEntity"/>
         <mapping class="web.core.persistence.entity.ListenGuidelineEntity"/>
+        <mapping class="web.core.persistence.entity.ExaminationEntity"/>
+        <mapping class="web.core.persistence.entity.ExaminationQuestionEntity"/>
+        <mapping class="web.core.persistence.entity.ExerciseEntity"/>
+        <mapping class="web.core.persistence.entity.ExerciseQuestionEntity"/>
+        <mapping class="web.core.persistence.entity.ResultEntity"/>
     </session-factory>
 </hibernate-configuration>

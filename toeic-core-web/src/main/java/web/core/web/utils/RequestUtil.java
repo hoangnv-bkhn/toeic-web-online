@@ -1,7 +1,6 @@
 package web.core.web.utils;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import web.core.web.command.AbstractCommand;
@@ -32,4 +31,17 @@ public class RequestUtil {
 
          }
 
-}}
+    }
+
+    public static void initSearchBeanManual(AbstractCommand command) {
+        if (command != null) {
+            Integer page = 1;
+            if (command.getPage() != 0) {
+                page = command.getPage();
+            }
+
+            command.setPage(page);
+            command.setFirstItem((command.getPage() - 1) * command.getMaxPageItems());
+        }
+    }
+}

@@ -12,6 +12,7 @@ public class WebConstant {
     public static final String URL_LIST = "url_list";
     public static final String URL_EDIT = "url_edit";
     public static final String LISTEN_GUIDE_LINE = "listenguideline";
+    public static final String EXERCISE = "exercise";
     public static final String INSERT_UPDATE = "insert_update";
     public static final String REDIRECT_INSERT = "redirect_insert";
     public static final String REDIRECT_UPDATE = "redirect_update";

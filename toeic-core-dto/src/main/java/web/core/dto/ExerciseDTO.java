@@ -1,38 +1,15 @@
-package web.core.persistence.entity;
+package web.core.dto;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Entity
-@Table(name = "exercise")
-public class ExerciseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ExerciseDTO {
     private Integer exerciseId;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "createddate")
     private Timestamp createdDate;
-
-    @Column(name = "modifieddate")
     private Timestamp modifiedDate;
-
-    @OneToMany(mappedBy = "exerciseEntity", fetch = FetchType.LAZY)
-    private List<ExerciseQuestionEntity> exerciseQuestions;
-
-    @Column(name = "type")
+    private List<ExerciseQuestionDTO> exerciseQuestions;
     private String type;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public Integer getExerciseId() {
         return exerciseId;
@@ -66,12 +43,19 @@ public class ExerciseEntity {
         this.modifiedDate = modifiedDate;
     }
 
-    public List<ExerciseQuestionEntity> getExerciseQuestions() {
+    public List<ExerciseQuestionDTO> getExerciseQuestions() {
         return exerciseQuestions;
     }
 
-    public void setExerciseQuestions(List<ExerciseQuestionEntity> exerciseQuestions) {
+    public void setExerciseQuestions(List<ExerciseQuestionDTO> exerciseQuestions) {
         this.exerciseQuestions = exerciseQuestions;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
