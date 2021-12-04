@@ -1,6 +1,8 @@
 package web.core.dto;
 
-public class CheckLoginDTO {
+import java.io.Serializable;
+
+public class CheckLoginDTO implements Serializable {
     private boolean isUserExist;
     private String roleName;
 

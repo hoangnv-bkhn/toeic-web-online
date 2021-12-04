@@ -171,39 +171,31 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
         }
     */
     @Override
-    public Object[] findByProperty(Map<String, Object> property, String sortExpression, String sortDirection, Integer offset, Integer limit) {
+    public Object[] findByProperty(Map<String, Object> property, String sortExpression, String sortDirection, Integer offset, Integer limit, String whereClause) {
         List<T> list = new ArrayList<>();
         Session session = getSession();
         Transaction transaction = session.beginTransaction();
         Object totalItems = 0;
-        String[] params = new String[property.size()];
-        Object[] values = new Object[property.size()];
-        int i = 0;
-        for (Map.Entry<String, Object> item: property.entrySet()) {
-            params[i] = item.getKey();
-            values[i] = item.getValue();
-            i++;
-        }
+        Object[] nameQuery = HibernateUtil.buildNameQuery(property);
         try {
             StringBuilder sql = new StringBuilder("from ");
-            sql.append(getPersistenceClassName()).append(" WHERE 1 = 1 ");
-            if (property.size() > 0){
-                for (int i1 = 0; i1 < params.length; i1++) {
-                    sql.append(" and ").append("LOWER (").append(params[i1]).append(") LIKE '%' || :").append(params[i1]).append(" || '%'");
-                }
-
-            }
+            sql.append(getPersistenceClassName()).append(" WHERE 1 = 1 ").append(nameQuery[0]);
             if (sortExpression != null && sortDirection != null) {
                 sql.append(" order by ").append(sortExpression);
                 sql.append(" ").append(sortDirection.equals(CoreConstant.SORT_ACS) ? "asc" : "desc");
             }
-            Query<T> query1 = session.createQuery(sql.toString());
 
-            if (property.size() > 0) {
+            if (whereClause != null) {
+                sql.append(whereClause);
+            }
+
+            Query<T> query1 = session.createQuery(sql.toString());
+            setParameterForQuery(nameQuery, query1);
+            /*if (property.size() > 0) {
                 for (int i2 = 0; i2 < params.length; i2++) {
                     query1.setParameter(params[i2], values[i2]);
                 }
-            }
+            }*/
             if (offset != null && offset >= 0) {
                 query1.setFirstResult(offset);
             }
@@ -214,19 +206,12 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
 
 //			totalItems = list.size();
             StringBuilder sql2 = new StringBuilder("select count(*) from ");
-            sql2.append(getPersistenceClassName()).append(" WHERE 1 = 1 ");
-            if (property.size() > 0){
-                for (int i1 = 0; i1 < params.length; i1++) {
-                        sql2.append(" and ").append("LOWER (").append(params[i1]).append(") LIKE '%' || :").append(params[i1]).append(" || '%'");
-                }
-
+            sql2.append(getPersistenceClassName()).append(" WHERE 1 = 1 ").append(nameQuery[0]);
+            if (whereClause != null) {
+                sql2.append(whereClause);
             }
             Query<T> query2 = session.createQuery(sql2.toString());
-            if (property.size() > 0) {
-                for (int i2 = 0; i2 < params.length; i2++) {
-                    query2.setParameter(params[i2], values[i2]);
-                }
-            }
+            setParameterForQuery(nameQuery, query2);
             totalItems = query2.list().get(0);
             transaction.commit();
 
@@ -238,6 +223,16 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
             session.close();
         }
         return new Object[]{totalItems, list};
+    }
+
+    private void setParameterForQuery(Object[] nameQuery, Query<T> query) {
+        if (nameQuery.length == 3) {
+            String[] params = (String[]) nameQuery[1];
+            Object[] values = (Object[]) nameQuery[2];
+            for (int i2 = 0; i2 < params.length; i2++) {
+                query.setParameter(params[i2], values[i2]);
+            }
+        }
     }
 
 

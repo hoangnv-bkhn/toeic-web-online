@@ -1,9 +1,10 @@
 package web.core.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class ExerciseDTO {
+public class ExerciseDTO implements Serializable {
     private Integer exerciseId;
     private String name;
     private Timestamp createdDate;

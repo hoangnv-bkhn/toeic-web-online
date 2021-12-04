@@ -1,9 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <footer>
     <div class="container">
         <div class="row">
-            <div class="span6">Copyright © 2013 Shapebootstrap | All Rights Reserved  <br>
-                <small>Aliquam tincidunt mauris eu risus.</small>
-            </div>
+            <div class="span6">Copyright © 2021 | Viet Hoang Nguyen</div>
             <div class="span6">
                 <div class="social pull-right">
                     <a href="#"><img src="img/social/googleplus.png" alt=""></a>

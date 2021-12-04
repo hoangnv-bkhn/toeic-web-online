@@ -1,8 +1,8 @@
 package web.controller.web;
 
 import org.apache.commons.lang.StringUtils;
-import web.command.ExerciseCommand;
-import web.core.dto.ExerciseDTO;
+import web.command.ExaminationCommand;
+import web.core.dto.ExaminationDTO;
 import web.core.web.common.WebConstant;
 import web.core.web.utils.FormUtil;
 import web.core.web.utils.RequestUtil;
@@ -19,35 +19,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(urlPatterns = {"/danh-sach-bai-tap.html"})
-public class ExerciseController extends HttpServlet {
+@WebServlet(urlPatterns = {"/danh-sach-bai-thi.html"})
+public class ExaminationController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ExerciseCommand command = FormUtil.populate(ExerciseCommand.class, request);
-        executeSearchExercise(request, command);
+        ExaminationCommand command = FormUtil.populate(ExaminationCommand.class, request);
+        executeSearchExamination(request, command);
         request.setAttribute(WebConstant.LIST_ITEMS, command);
-        System.out.println(((ExerciseDTO) command.getPojo()).toString());
-        RequestDispatcher rd = request.getRequestDispatcher("/views/web/exercise/list.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/views/web/examination/list.jsp");
         rd.forward(request, response);
 
     }
 
-    private void executeSearchExercise(HttpServletRequest request, ExerciseCommand command) {
+    private void executeSearchExamination(HttpServletRequest request, ExaminationCommand command) {
         Map<String, Object> properties = buildMapProperties(command);
         command.setMaxPageItems(3);
         RequestUtil.initSearchBeanManual(command);
-        Object[] objects = SingletonServiceUtil.getExerciseServiceImplInstance().findExerciseByProperties(properties, command.getSortExpression(), command.getSortDirection(), command.getFirstItem(), command.getMaxPageItems());
-        command.setListResult((List<ExerciseDTO>) objects[1]);
+        Object[] objects = SingletonServiceUtil.getExaminationServiceImplInstance().findExaminationByProperties(properties, command.getSortExpression(), command.getSortDirection(), command.getFirstItem(), command.getMaxPageItems());
+        command.setListResult((List<ExaminationDTO>) objects[1]);
         command.setTotalItems(Integer.parseInt(objects[0].toString()));
         command.setTotalPages((int) Math.ceil((double) command.getTotalItems() / command.getMaxPageItems()));
     }
 
-    private Map<String, Object> buildMapProperties(ExerciseCommand command) {
+    private Map<String, Object> buildMapProperties(ExaminationCommand command) {
         Map<String, Object> properties = new HashMap<String, Object>();
         if (StringUtils.isNotBlank(command.getPojo().getName())) {
             properties.put("name", command.getPojo().getName());
-        }
-        if (command.getPojo().getType() != null) {
-            properties.put("type", command.getPojo().getType());
         }
         return properties;
     }

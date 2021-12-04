@@ -77,7 +77,7 @@
             if ($('input[name="answerUser"]:checked').length > 0) {
                 $('#formUrl').submit();
             } else {
-                alert("Ban chua chon dap an nao ca!");
+                alert("Bạn chưa chọn đáp án!");
             }
         });
         $('#btnAgain').click(function () {

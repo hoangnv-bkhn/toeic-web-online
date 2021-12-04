@@ -1,14 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: LENOVO
-  Date: 8/3/2021
-  Time: 11:08 AM
+  Date: 8/4/2021
+  Time: 9:25 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<c:url var="urlList" value="/danh-sach-bai-tap.html"/>
+<c:url var="urlList" value="/danh-sach-bai-thi.html"/>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -36,11 +36,16 @@
                     <div class="image group">
                         <div class="grid news_desc">
                             <h3>${item.name}</h3>
-                            <c:url value="/bai-tap-thuc-hanh.html" var="detailUrl">
-                                <c:param name="exerciseId" value="${item.exerciseId}"/>
-                                <c:param name="page" value="1"/>
+                            <c:url value="/bai-thi-thuc-hanh.html" var="detailUrl">
+                                <c:param name="examinationId" value="${item.examinationId}"/>
+<%--                                <c:param name="page" value="1"/>--%>
                             </c:url>
-                            <h4><span><a href="${detailUrl}">Làm bài tập</a></span></h4>
+                            <c:if test="${not empty login_name}">
+                                <h4><span><a href="${detailUrl}">Thi thử</a></span></h4>
+                            </c:if>
+                            <c:if test="${empty login_name}">
+                                <h4><span><fmt:message key="label.examination.require" bundle="${lang}"/> </span></h4>
+                            </c:if>
                         </div>
                     </div>
                 </c:forEach>
@@ -49,7 +54,6 @@
         </div>
     </div>
     <input type="hidden" id="page" name="page"/>
-    <input type="hidden" name="pojo.type" value="${items.pojo.type}"/>
 </form>
 <script type="text/javascript">
     var totalPages = ${items.totalPages};
@@ -74,4 +78,5 @@
 </script>
 </body>
 </html>
+
 

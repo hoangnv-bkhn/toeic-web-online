@@ -5,15 +5,16 @@
   Time: 3:23 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div class="header">
     <div class="headertop_desc">
         <div class="call">
-            <p><span>Need help?</span> call us <span class="number">1-22-3456789</span></p>
+            <a href="/home.html" >Home</a>
         </div>
         <div class="account_desc">
             <ul>
                 <c:if test="${not empty login_name}">
-                    <li>Xin chao: ${login_name}</li>
+                    <li>Xin chào: ${login_name}</li>
                     <c:url var="logoutUrl" value="/logout.html">
                         <c:param name="action" value="logout"/>
                     </c:url>

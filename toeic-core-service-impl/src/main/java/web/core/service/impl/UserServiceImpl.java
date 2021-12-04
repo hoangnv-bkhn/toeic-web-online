@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object[] findByProperty(Map<String, Object> property, String sortExpression, String sortDirection, Integer offset, Integer limit) {
-        Object[] objects = SingletonDaoUtil.getUserDaoInstance().findByProperty(property, sortDirection, sortDirection, offset, limit);
+        Object[] objects = SingletonDaoUtil.getUserDaoInstance().findByProperty(property, sortDirection, sortDirection, offset, limit, null);
         List<UserDTO> userDTOS = new ArrayList<>();
         for (UserEntity item : (List<UserEntity>)objects[1]) {
             UserDTO userDTO = UserBeanUtil.entity2Dto(item);

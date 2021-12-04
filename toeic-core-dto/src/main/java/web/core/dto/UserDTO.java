@@ -2,6 +2,7 @@ package web.core.dto;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class UserDTO implements Serializable {
     private Integer userId;
@@ -10,6 +11,15 @@ public class UserDTO implements Serializable {
     private String fullname;
     private Timestamp createdDate;
     private RoleDTO roleDTO;
+    private List<ResultDTO> results;
+
+    public List<ResultDTO> getResults() {
+        return results;
+    }
+
+    public void setResults(List<ResultDTO> results) {
+        this.results = results;
+    }
 
     private UserImportDTO userImportDTO;
 
